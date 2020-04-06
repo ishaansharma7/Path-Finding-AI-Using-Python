@@ -41,7 +41,7 @@ def god():
             global obstacle_list
             obstacle_list.append(but_no)
             print(obstacle_list)
-        if supply_mode == 3:                                # for destination
+        if supply_mode == 3:                                # for destination point
             button_list[but_no].config(bg='#7dcf21')
             global dest
             dest=but_no
