@@ -1,6 +1,5 @@
 from tkinter import *
 import backend
-import os
 def god():
     root = Tk()
     root.iconbitmap('Logo.ico')
@@ -9,18 +8,18 @@ def god():
     #root.resizable(width=FALSE, height=FALSE)
     count = 0
     button_list = []
-
-    frame_up = LabelFrame(root, text='options')
-    frame_down = LabelFrame(root, text='path')
+                                                        # root is divide into two parts 
+    frame_up = LabelFrame(root, text='options')         # upper part containing options for chossing starting, end point etc..
+    frame_down = LabelFrame(root, text='path')          # contains the grid of numbered buttons from 0 to 399
     frame_up.pack()
     frame_down.pack()
-    global supply_mode
+    global supply_mode                                  # choose between start point, obstacles and destination point
     supply_mode = 0
     global src
     src = 0
-    global obstacle_list
+    global obstacle_list                                # will contains the obstacles entered by user by clicking numbered buttons
     obstacle_list = []
-    global dest
+    global dest                                         # stores the final destination point enterd by user
     dest = 1000
 
     def button_mode(mode):
