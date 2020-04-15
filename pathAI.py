@@ -1,63 +1,61 @@
 from tkinter import *
 import backend
+
+
 def god():
     root = Tk()
     root.iconbitmap('Logo.ico')
     root.title('PathAI')
     root.geometry('800x780')
     #root.resizable(width=FALSE, height=FALSE)
-    count = 0
-    button_list = []
-                                                        # root is divide into two parts 
-    frame_up = LabelFrame(root, text='options')         # upper part containing options for chossing starting, end point etc..
-    frame_down = LabelFrame(root, text='path')          # contains the grid of numbered buttons from 0 to 399
+    count = 0                                           # for identifying each button/vertex and passing unique parameters
+    button_list = []                                    # stores button created during runtime
+
+    frame_up = LabelFrame(root, text='options')
+    frame_down = LabelFrame(root, text='path')
     frame_up.pack()
     frame_down.pack()
-    global supply_mode                                  # choose between start point, obstacles and destination point
+    global supply_mode                                  # for differentiating b/w starting, ending & obstacles point
     supply_mode = 0
-    global src
+    global src                                          # src is starting point
     src = 0
-    global obstacle_list                                # will contains the obstacles entered by user by clicking numbered buttons
+    global obstacle_list                                # stores the obstacles when supply_mode is 2
     obstacle_list = []
-    global dest                                         # stores the final destination point enterd by user
+    global dest                                         # final destination variable
     dest = 1000
 
-    def button_mode(mode):
+    def button_mode(mode):                              # input field by user starting/obstacles/destination point
         global supply_mode
         supply_mode = mode
         print(supply_mode)
 
-    def button_click(but_no):
+    def button_click(but_no):                           # clicked buttons in path
         #print(but_no)
         global supply_mode
-        if supply_mode == 1:                                # for starting point
+        if supply_mode == 1:                                # for starting point when supply_mode = 1
             button_list[but_no].config(bg='#ffe525')
             global src
             src = but_no
             start_button['state'] = DISABLED
             supply_mode = 0
-        if supply_mode == 2:                                # for obstacles
+        if supply_mode == 2:                                # for obstacles      when supply_mode = 2
             button_list[but_no].config(bg='#b4b4b4')
             global obstacle_list
             obstacle_list.append(but_no)
-            print(obstacle_list)
-        if supply_mode == 3:                                # for destination point
+        if supply_mode == 3:                                # for destination    when supply_mode = 3
             button_list[but_no].config(bg='#7dcf21')
             global dest
             dest=but_no
             destination_button['state'] = DISABLED
             supply_mode = 0
 
-
     start_button = Button(frame_up, text='select start point', command=lambda: button_mode(1))
     obstacle_button = Button(frame_up, text='select obstacles', command=lambda: button_mode(2))
     destination_button = Button(frame_up, text='select destination', command=lambda: button_mode(3))
 
-
     start_button.grid(row=0, column=1, sticky="ew", padx=10, pady=5)
     obstacle_button.grid(row=0, column=2, sticky="ew", padx=10, pady=5)
     destination_button.grid(row=0, column=3, sticky="ew", padx=10, pady=5)
-
 
     for i in range(20):
         for j in range(20):
@@ -65,12 +63,11 @@ def god():
             button_list[count].grid(row=i, column=j, sticky="ew")
             count += 1
 
-    def solution():
+    def solution():                                         # backend script is called
         parent = backend.backened(src, obstacle_list, dest)
         for value in parent:
-            button_list[value].config(bg='#00c5ff')         # path color
-        button_list[src].config(bg='#ffe525')
-
+            button_list[value].config(bg='#00c5ff')         # path color is turned blue
+        button_list[src].config(bg='#ffe525')               # starting pt color is turned back yellow
 
     go_button = Button(frame_up, text='go', command=solution)
     go_button.grid(row=0, column=4, padx=10, pady=5)
@@ -79,7 +76,6 @@ def god():
         root.destroy()
         god()
         
-
     restart_button = Button(frame_up, text='restart', command=restart)
     restart_button.grid(row=0, column=5, padx=10, pady=5)
 
